@@ -1,5 +1,6 @@
 package com.raywenderlich.android.w00tze.repository
 
+import com.raywenderlich.android.w00tze.model.Gist
 import com.raywenderlich.android.w00tze.model.Repo
 import java.io.*
 import java.net.URL
@@ -10,6 +11,7 @@ import javax.net.ssl.HttpsURLConnection
  */
 
 internal typealias ReposCallback = (repos: List<Repo>) -> Unit
+internal typealias GistsCallback = (repos: List<Gist>) -> Unit
 
 @Throws(IOException::class)
 internal fun getURLAsString(urlAddress: String):String {
