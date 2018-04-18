@@ -39,7 +39,7 @@ object RemoteRepository : Repository {
 
 			override fun onResponse(call: Call<List<Repo>>?, response: Response<List<Repo>>?) {
 				if (response != null) {
-					liveData.value = emptyList()
+					liveData.value = response.body()
 				}
 			}
 		})
@@ -73,9 +73,10 @@ object RemoteRepository : Repository {
 			}
 
 			override fun onResponse(call: Call<User>?, response: Response<User>?) {
-
+				if (response != null) {
+					liveData.value = response.body()
+				}
 			}
-
 		})
 
 		return liveData
