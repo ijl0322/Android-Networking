@@ -31,7 +31,10 @@
 
 package com.raywenderlich.android.w00tze.app
 
+import com.raywenderlich.android.w00tze.BuildConfig
 import com.raywenderlich.android.w00tze.repository.*
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -42,10 +45,27 @@ object Injection {
     return Retrofit.Builder()
         .baseUrl("https://api.github.com/")
         .addConverterFactory(GsonConverterFactory.create())
+        .client(provideOKHTTPClient())
         .build()
   }
 
   fun provideGithubApi(): GithubApi {
     return provideRetrofit().create(GithubApi::class.java)
+  }
+
+  private fun provideLoggingInterceptor(): HttpLoggingInterceptor {
+    val logging = HttpLoggingInterceptor()
+    logging.level = if (BuildConfig.DEBUG) {
+      HttpLoggingInterceptor.Level.BODY
+    } else {
+      HttpLoggingInterceptor.Level.NONE
+    }
+    return logging
+  }
+
+  private fun provideOKHTTPClient(): OkHttpClient {
+    val httpClient = OkHttpClient.Builder()
+    httpClient.addInterceptor((provideLoggingInterceptor()))
+    return httpClient.build()
   }
 }

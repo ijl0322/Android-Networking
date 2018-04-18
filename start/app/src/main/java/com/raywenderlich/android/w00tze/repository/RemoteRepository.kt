@@ -78,7 +78,6 @@ object RemoteRepository : Repository {
 				}
 			}
 		})
-
 		return liveData
 	}
 }
