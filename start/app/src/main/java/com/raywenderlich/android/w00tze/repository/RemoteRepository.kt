@@ -52,7 +52,7 @@ object RemoteRepository : Repository {
 		api.getGists(LOGIN).enqueue(object : Callback<List<Gist>>{
 			override fun onResponse(call: Call<List<Gist>>?, response: Response<List<Gist>>?) {
 				if (response != null) {
-					liveData.value = emptyList()
+					liveData.value = response.body()
 				}
 			}
 
