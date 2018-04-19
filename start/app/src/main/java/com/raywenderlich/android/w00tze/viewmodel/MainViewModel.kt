@@ -29,9 +29,12 @@ class MainViewModel(application: Application): AndroidViewModel(application){
 				val accessToken = response?.body()?.accessToken
 				val tokenType = response?.body()?.tokenType
 				if (accessToken != null && tokenType != null) {
+					println("Saving the token")
 					AuthenticationPrefs.saveAuthToken(accessToken)
 					AuthenticationPrefs.saveTokenType(tokenType)
 					callback()
+				} else {
+					println("what the hell ?")
 				}
 			}
 		})

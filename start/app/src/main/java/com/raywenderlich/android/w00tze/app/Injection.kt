@@ -32,6 +32,7 @@
 package com.raywenderlich.android.w00tze.app
 
 import com.raywenderlich.android.w00tze.BuildConfig
+import com.raywenderlich.android.w00tze.model.AuthenticationPrefs
 import com.raywenderlich.android.w00tze.repository.*
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -66,6 +67,10 @@ object Injection {
   private fun provideOKHTTPClient(): OkHttpClient {
     val httpClient = OkHttpClient.Builder()
     httpClient.addInterceptor((provideLoggingInterceptor()))
+    httpClient.addInterceptor { chain ->
+      val request = chain.request().newBuilder().addHeader("Authorization", "token ${AuthenticationPrefs.getAuthToken()}").build()
+      chain.proceed(request)
+    }
     return httpClient.build()
   }
 
