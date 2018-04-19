@@ -14,40 +14,42 @@ import retrofit2.Response
 
 object RemoteRepository : Repository {
 	private const val TAG = "RemoteRepository"
-	private const val LOGIN = "w00tze"
+	private const val LOGIN = "w00tze123"
 	private val api = Injection.provideGithubApi()
 
-	override fun getRepos(): LiveData<List<Repo>> {
-		val liveData = MutableLiveData<List<Repo>>()
+	override fun getRepos(): LiveData<Either<List<Repo>>> {
+		val liveData = MutableLiveData<Either<List<Repo>>>()
 
 		api.getRepos(LOGIN).enqueue(object : Callback<List<Repo>> {
 			override fun onFailure(call: Call<List<Repo>>?, t: Throwable?) {
-
+				liveData.value = Either.error(ApiError.REPOS, null)
 			}
 
 			override fun onResponse(call: Call<List<Repo>>?, response: Response<List<Repo>>?) {
-				if (response != null) {
-					liveData.value = response.body()
+				if (response != null && response.isSuccessful) {
+					liveData.value = Either.success(response.body())
+				} else {
+					liveData.value = Either.error(ApiError.REPOS, null)
 				}
 			}
 		})
-
 		return liveData
 	}
 
-	override fun getGists(): LiveData<List<Gist>> {
-		val liveData = MutableLiveData<List<Gist>>()
+	override fun getGists(): LiveData<Either<List<Gist>>> {
+		val liveData = MutableLiveData<Either<List<Gist>>>()
 		api.getGists(LOGIN).enqueue(object : Callback<List<Gist>>{
 			override fun onResponse(call: Call<List<Gist>>?, response: Response<List<Gist>>?) {
-				if (response != null) {
-					liveData.value = response.body()
+				if (response != null && response.isSuccessful) {
+					liveData.value = Either.success(response.body())
+				} else {
+					liveData.value = Either.error(ApiError.GISTS, null)
 				}
 			}
 
 			override fun onFailure(call: Call<List<Gist>>?, t: Throwable?) {
-
+				liveData.value = Either.error(ApiError.REPOS, null)
 			}
-
 		})
 		return liveData
 	}

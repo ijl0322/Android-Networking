@@ -20,4 +20,6 @@
   <string name="username_title">GitHub Username</string>
   <string name="username_ok">OK</string>
 	<string name="error_retrieving_user">Error Retrieving User</string>
+  <string name="error_retrieving_repo">Error Retrieving Repo</string>
+  <string name="error_retrieving_gist">Error Retrieving Gist</string>
 </resources>
