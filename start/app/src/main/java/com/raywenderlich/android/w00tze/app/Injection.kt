@@ -68,4 +68,16 @@ object Injection {
     httpClient.addInterceptor((provideLoggingInterceptor()))
     return httpClient.build()
   }
+
+  private fun provideAuthRetrofit(): Retrofit {
+    return Retrofit.Builder()
+        .baseUrl("https://github.com/")
+        .addConverterFactory(GsonConverterFactory.create())
+        .client(provideOKHTTPClient())
+        .build()
+  }
+
+  fun provideAuthApi(): AuthApi {
+    return provideAuthRetrofit().create(AuthApi::class.java)
+  }
 }

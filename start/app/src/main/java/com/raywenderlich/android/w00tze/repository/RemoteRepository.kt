@@ -14,7 +14,7 @@ import retrofit2.Response
 
 object RemoteRepository : Repository {
 	private const val TAG = "RemoteRepository"
-	private const val LOGIN = "w00tze123"
+	private val LOGIN = AuthenticationPrefs.getUsername()
 	private val api = Injection.provideGithubApi()
 
 	override fun getRepos(): LiveData<Either<List<Repo>>> {
