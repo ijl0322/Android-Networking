@@ -2,21 +2,9 @@ package com.raywenderlich.android.w00tze.repository
 
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
-import android.net.Uri
-import android.os.AsyncTask
-import android.os.RemoteCallbackList
-import android.util.Log
-import com.raywenderlich.android.w00tze.app.Constants
 import com.raywenderlich.android.w00tze.app.Injection
-import com.raywenderlich.android.w00tze.app.isNullorBlankOrNullString
-import com.raywenderlich.android.w00tze.model.Gist
-import com.raywenderlich.android.w00tze.model.Repo
-import com.raywenderlich.android.w00tze.model.User
-import org.json.JSONArray
-import org.json.JSONException
-import org.json.JSONObject
+import com.raywenderlich.android.w00tze.model.*
 import retrofit2.Call
-import java.io.IOException
 import retrofit2.Callback
 import retrofit2.Response
 
@@ -64,17 +52,19 @@ object RemoteRepository : Repository {
 		return liveData
 	}
 
-	override fun getUser(): LiveData<User> {
-		val liveData = MutableLiveData<User>()
+	override fun getUser(): LiveData<Either<User>> {
+		val liveData = MutableLiveData<Either<User>>()
 
 		api.getUser(LOGIN).enqueue(object : Callback<User>{
 			override fun onFailure(call: Call<User>?, t: Throwable?) {
-
+				liveData.value = Either.error(ApiError.USER, null)
 			}
 
 			override fun onResponse(call: Call<User>?, response: Response<User>?) {
-				if (response != null) {
-					liveData.value = response.body()
+				if (response != null && response.isSuccessful) {
+					liveData.value = Either.success(response.body())
+				} else {
+					liveData.value = Either.error(ApiError.USER, null)
 				}
 			}
 		})
