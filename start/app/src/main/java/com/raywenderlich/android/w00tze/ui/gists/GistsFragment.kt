@@ -87,7 +87,7 @@ class GistsFragment : Fragment(), GistAdapter.GistAdapterListener {
 
   override fun deleteGist(gist: Gist) {
     gistsViewModel.deleteGist(gist).observe(this, Observer<Either<EmptyResponse>> { either ->
-      if (either?.status == Status.SUCCESS && either.data != null) {
+      if (either?.status == Status.SUCCESS) {
         adapter.deleteGist(gist)
       } else {
         if (either?.error == ApiError.DELETE_GIST) {
@@ -98,7 +98,6 @@ class GistsFragment : Fragment(), GistAdapter.GistAdapterListener {
   }
 
   internal fun sendGist(description: String, filename: String, content: String) {
-    println("Sending gist: $description - $filename - $content")
     gistsViewModel.sendGist(description, filename, content).observe(this, Observer<Either<Gist>> { either ->
       if (either?.status == Status.SUCCESS && either.data != null) {
         adapter.addGist(either.data)
