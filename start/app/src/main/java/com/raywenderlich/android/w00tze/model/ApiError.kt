@@ -8,5 +8,6 @@ enum class ApiError {
 	USER,
 	GISTS,
 	REPOS,
-	POST_GIST
+	POST_GIST,
+	DELETE_GIST
 }

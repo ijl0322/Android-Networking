@@ -1,14 +1,8 @@
 package com.raywenderlich.android.w00tze.repository
 
-import com.raywenderlich.android.w00tze.model.Gist
-import com.raywenderlich.android.w00tze.model.GistRequest
-import com.raywenderlich.android.w00tze.model.Repo
-import com.raywenderlich.android.w00tze.model.User
-import retrofit2.http.GET
-import retrofit2.http.Path
+import com.raywenderlich.android.w00tze.model.*
 import retrofit2.Call
-import retrofit2.http.Body
-import retrofit2.http.POST
+import retrofit2.http.*
 
 /**
  * Created by isabellee on 4/18/18.
@@ -25,4 +19,7 @@ interface GithubApi {
 
 	@POST("gists")
 	fun postGist(@Body body:GistRequest): Call<Gist>
+
+	@DELETE("gists/{id}")
+	fun deleteGist(@Path("id") gistId: String): Call<EmptyResponse>
 }

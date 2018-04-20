@@ -39,5 +39,6 @@ interface Repository {
   fun getGists(): LiveData<Either<List<Gist>>>
   fun getUser(): LiveData<Either<User>>
   fun postGist(request: GistRequest): LiveData<Either<Gist>>
+  fun deleteGist(gistId: String): LiveData<Either<EmptyResponse>>
 }
 

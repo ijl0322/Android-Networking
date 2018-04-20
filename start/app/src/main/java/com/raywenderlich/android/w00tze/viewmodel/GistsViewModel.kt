@@ -54,4 +54,6 @@ class GistsViewModel(application: Application) : AndroidViewModel(application) {
     val request = GistRequest(description, gistFiles)
     return repository.postGist(request)
   }
+
+  fun deleteGist(gist: Gist) = repository.deleteGist(gist.id)
 }
