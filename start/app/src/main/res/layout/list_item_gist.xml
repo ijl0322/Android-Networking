@@ -28,4 +28,14 @@
     app:layout_constraintTop_toBottomOf="@id/gistDescription"
     tools:text="Thu Feb 22 20:18:58 +0000 2018" />
 
+  <TextView
+    android:id="@+id/numFiles"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/activity_horizontal_margin"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    tools:text="1"
+    />
 </android.support.constraint.ConstraintLayout>
